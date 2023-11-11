@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '../../../common/context/auth';
 import { useForm } from 'react-hook-form';
-import { makeErrorToast } from '../../../common/components/layout/Toast';
-import mapAuthErrorToMessage from '../../../common/utils/mapAuthErrorToMessage';
-import ProviderLoginButton from '../../../common/components/inputs/ProviderLoginButton';
-import classNames from '../../utils/classNames';
+import { makeErrorToast } from 'common/components/layout/Toast';
+import mapAuthErrorToMessage from 'common/utils/mapAuthErrorToMessage';
+import ProviderLoginButton from 'common/components/inputs/ProviderLoginButton';
 import TextInput from '../inputs/TextInput';
+import { useAuth } from 'common/context/auth';
+import classNames from 'common/utils/classNames';
 
 const Auth = ({ isSignUpMode }) => {
   const router = useRouter();
@@ -55,49 +55,49 @@ const Auth = ({ isSignUpMode }) => {
   };
 
   return (
-    <div className='flex pt-10 px-4 flex-col items-center justify-center'>
-      <div className='text-3xl font-semibold text-center'>
+    <div className="flex pt-10 px-4 flex-col items-center justify-center">
+      <div className="text-3xl font-semibold text-center">
         {isSignUpMode ? 'Zarejestruj się' : 'Zaloguj się'}
       </div>
       <form
-        className='w-full flex items-center justify-center'
+        className="w-full flex items-center justify-center"
         onSubmit={handleSubmit(handleRegistration)}
       >
-        <div className='flex card w-full space-y-12 max-w-lg bg-neutral p-8 flex-col mt-8'>
-          <div className='flex flex-col space-y-4'>
-            <div className='flex flex-col space-y-2 items-center'>
+        <div className="flex card w-full space-y-12 max-w-lg bg-neutral p-8 flex-col mt-8">
+          <div className="flex flex-col space-y-4">
+            <div className="flex flex-col space-y-2 items-center">
               <ProviderLoginButton
                 handler={handleLoginWithGoogle}
                 isLoading={isLoading}
               />
             </div>
           </div>
-          <div className='divider'>OR</div>
-          <div className='flex flex-col space-y-4'>
+          <div className="divider">OR</div>
+          <div className="flex flex-col space-y-4">
             <TextInput
-              id='email'
-              type='text'
-              placeholder='Email Address'
-              className='input'
+              id="email"
+              type="text"
+              placeholder="Email Address"
+              className="input"
               register={register}
               watch={watch}
               required
             />
             <TextInput
-              id='password'
-              type='password'
-              placeholder='Password'
-              className='input'
+              id="password"
+              type="password"
+              placeholder="Password"
+              className="input"
               register={register}
               watch={watch}
               required
             />
           </div>
-          <div className='flex flex-col space-y-4'>
-            <button type='submit' className='btn btn-primary'>
+          <div className="flex flex-col space-y-4">
+            <button type="submit" className="btn btn-primary">
               <span
                 className={classNames(
-                  isLoading ? 'loading loading-spinner' : '',
+                  isLoading ? 'loading loading-spinner' : ''
                 )}
               ></span>
               {isSignUpMode ? 'Zarejestruj się' : 'Zaloguj'}
@@ -105,11 +105,11 @@ const Auth = ({ isSignUpMode }) => {
           </div>
         </div>
       </form>
-      <div className='mt-4'>
+      <div className="mt-4">
         {isSignUpMode ? 'Masz już konto?' : 'Nie masz konta?'}
         <button
           onClick={() => router.push(isSignUpMode ? '/login' : '/signup')}
-          className='btn btn-link inline'
+          className="btn btn-link inline"
         >
           {isSignUpMode ? 'Zaloguj się' : 'Zarejestruj się'}
         </button>
@@ -117,7 +117,7 @@ const Auth = ({ isSignUpMode }) => {
       {!isSignUpMode ? (
         <button
           onClick={() => router.push('/reset-password')}
-          className='btn btn-link'
+          className="btn btn-link"
         >
           Zapomniałem hasła
         </button>

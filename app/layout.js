@@ -6,15 +6,15 @@ import { SkeletonTheme } from 'react-loading-skeleton';
 import { ErrorBoundary } from '@sentry/nextjs';
 import { Nunito } from 'next/font/google';
 import { themeChange } from 'theme-change';
-import { AuthProvider } from '../common/context/auth';
-import { Toast } from '../common/components/layout/Toast';
-import ProtectedRoute from '../common/components/utils/ProtectedRoute';
-import { setupLogging } from '../common/utils/sentry';
+import { AuthProvider } from 'common/context/auth';
+import { Toast } from 'common/components/layout/Toast';
+import ProtectedRoute from 'common/components/utils/ProtectedRoute';
+import { setupLogging } from 'common/utils/sentry';
 
 import 'react-loading-skeleton/dist/skeleton.css';
 import 'react-toastify/dist/ReactToastify.min.css';
-import '../common/styles/globals.scss';
-import '../common/styles/tailwind.scss';
+import 'common/styles/globals.scss';
+import 'common/styles/tailwind.scss';
 
 const nunito = Nunito({
   subsets: ['latin'],

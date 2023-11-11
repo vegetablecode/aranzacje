@@ -1,5 +1,5 @@
 import { doc, setDoc, updateDoc } from 'firebase/firestore';
-import { db } from '../config/firebase';
+import { db } from 'common/config/firebase';
 
 const updatePreferences = async (user, preferences, initial = false) => {
   if (initial) {

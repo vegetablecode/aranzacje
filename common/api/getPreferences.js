@@ -1,5 +1,5 @@
 import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../config/firebase';
+import { db } from 'common/config/firebase';
 
 const getPreferences = async (user) => {
   const preferencesSnap = await getDoc(doc(db, 'users', user.uid));

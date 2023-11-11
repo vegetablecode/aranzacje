@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '../../context/auth';
-import LoadingOverlay from '../layout/LoadingOverlay';
+import { useAuth } from 'common/context/auth';
+import LoadingOverlay from 'common/components/layout/LoadingOverlay';
 
 const ProtectedRoute = ({ children }) => {
   const { user, isLoading } = useAuth();

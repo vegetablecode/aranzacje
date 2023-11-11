@@ -6,10 +6,10 @@ import { useForm } from 'react-hook-form';
 import {
   makeErrorToast,
   makeSuccessToast,
-} from '../../../common/components/layout/Toast';
+} from 'common/components/layout/Toast';
 import mapAuthErrorToMessage from '../../../common/utils/mapAuthErrorToMessage';
-import classNames from '../../../common/utils/classNames';
-import TextInput from '../../../common/components/inputs/TextInput';
+import classNames from 'common/utils/classNames';
+import TextInput from 'common/components/inputs/TextInput';
 
 const Page = () => {
   const router = useRouter();
@@ -40,24 +40,24 @@ const Page = () => {
   };
 
   return (
-    <div className='flex pt-10 px-4 flex-col items-center justify-center'>
-      <div className='text-3xl font-semibold text-center'>
+    <div className="flex pt-10 px-4 flex-col items-center justify-center">
+      <div className="text-3xl font-semibold text-center">
         Przypomnienie hasła
       </div>
       <form
-        className='w-full flex items-center justify-center'
+        className="w-full flex items-center justify-center"
         onSubmit={handleSubmit(handleResetForm)}
       >
-        <div className='flex card w-full space-y-4 max-w-lg bg-neutral p-8 flex-col mt-8'>
+        <div className="flex card w-full space-y-4 max-w-lg bg-neutral p-8 flex-col mt-8">
           <TextInput
-            id='email'
-            type='text'
-            placeholder='Email Address'
-            className='input'
+            id="email"
+            type="text"
+            placeholder="Email Address"
+            className="input"
             register={register}
             required
           />
-          <button type='submit' className='btn btn-primary'>
+          <button type="submit" className="btn btn-primary">
             <span
               className={classNames(isLoading ? 'loading loading-spinner' : '')}
             ></span>

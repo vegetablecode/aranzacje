@@ -1,4 +1,4 @@
-import classNames from '../../utils/classNames';
+import classNames from 'common/utils/classNames';
 
 const TextInput = (props) => {
   const { id, type, placeholder, register, watch, required, error } = props;
