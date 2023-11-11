@@ -3,14 +3,15 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { makeErrorToast } from 'common/components/layout/Toast';
 import mapAuthErrorToMessage from 'common/utils/mapAuthErrorToMessage';
-import ProviderLoginButton from 'common/components/inputs/ProviderLoginButton';
-import TextInput from '../inputs/TextInput';
-import { useAuth } from 'common/context/auth';
+import ProviderLoginButton from 'modules/auth/components/ProviderLoginButton';
 import classNames from 'common/utils/classNames';
+import useAuthStore from 'modules/auth/store';
+import { login, loginWithGoogle, signUp } from 'modules/auth/lib';
+import TextInput from 'common/components/inputs/TextInput';
 
 const Auth = ({ isSignUpMode }) => {
   const router = useRouter();
-  const { login, loginWithGoogle, signUp, user } = useAuth();
+  const { user } = useAuthStore();
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -19,12 +20,7 @@ const Auth = ({ isSignUpMode }) => {
     }
   }, user);
 
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-    watch,
-  } = useForm({
+  const { handleSubmit, register } = useForm({
     mode: 'onTouched',
   });
 
@@ -49,6 +45,7 @@ const Auth = ({ isSignUpMode }) => {
       await loginWithGoogle();
       router.push('/profile');
     } catch (err) {
+      console.log(err);
       makeErrorToast(mapAuthErrorToMessage(err));
       setIsLoading(false);
     }
@@ -80,7 +77,6 @@ const Auth = ({ isSignUpMode }) => {
               placeholder="Email Address"
               className="input"
               register={register}
-              watch={watch}
               required
             />
             <TextInput
@@ -89,7 +85,6 @@ const Auth = ({ isSignUpMode }) => {
               placeholder="Password"
               className="input"
               register={register}
-              watch={watch}
               required
             />
           </div>

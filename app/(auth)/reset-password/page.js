@@ -1,7 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '../../../common/context/auth';
 import { useForm } from 'react-hook-form';
 import {
   makeErrorToast,
@@ -10,10 +9,12 @@ import {
 import mapAuthErrorToMessage from '../../../common/utils/mapAuthErrorToMessage';
 import classNames from 'common/utils/classNames';
 import TextInput from 'common/components/inputs/TextInput';
+import { resetPassword } from 'modules/auth/lib';
+import useAuthStore from 'modules/auth/store';
 
 const Page = () => {
   const router = useRouter();
-  const { resetPassword, user } = useAuth();
+  const { user } = useAuthStore();
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {

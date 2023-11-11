@@ -1,5 +1,23 @@
+'use client';
+
+import { logout } from 'modules/auth/lib';
+import useAuthStore from 'modules/auth/store';
+
 const Page = () => {
-  return <div>Profile</div>;
+  const { setUser } = useAuthStore();
+
+  const handleLogout = async () => {
+    await logout();
+    setUser(null);
+  };
+
+  return (
+    <div>
+      <button onClick={() => handleLogout()} class="btn">
+        Logout
+      </button>
+    </div>
+  );
 };
 
 export default Page;

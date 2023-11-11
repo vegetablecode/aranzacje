@@ -8,7 +8,7 @@ const TextInput = (props) => {
       type={type}
       placeholder={placeholder}
       className={classNames('input', error ? 'input-error' : '')}
-      register={register}
+      register={register && null}
       watch={watch}
       required={required}
     />

@@ -1,6 +1,6 @@
 'use client';
 
-import Auth from 'common/components/utils/Auth';
+import Auth from 'modules/auth/components/Auth';
 
 const Page = () => <Auth isSignUpMode={false} />;
 
