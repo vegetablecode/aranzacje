@@ -7,12 +7,12 @@ const Home = () => {
   const router = useRouter();
 
   return (
-    <div className="w-screen h-screen flex flex-col space-y-4 items-center justify-center">
-      ️<div>Hello 👋</div>
-      <button onClick={() => router.push('/login')} className="btn">
-        Login
-      </button>
-      <ThemeSwitcher />
+    <div className="w-screen h-screen flex flex-col space-y-4 items-center justify-start">
+      ️
+      <div className="text-3xl font-semibold text-center">
+        <div>Witaj w kreatorze</div>
+        <div>pomieszczeń AI 🤖</div>
+      </div>
     </div>
   );
 };

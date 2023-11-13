@@ -2,7 +2,6 @@
 import { useEffect } from 'react';
 import Head from 'next/head';
 import { usePathname } from 'next/navigation';
-import { SkeletonTheme } from 'react-loading-skeleton';
 import { ErrorBoundary } from '@sentry/nextjs';
 import { Nunito } from 'next/font/google';
 import { themeChange } from 'theme-change';
@@ -10,7 +9,6 @@ import { Toast } from 'common/components/layout/Toast';
 import ProtectedRoute from 'modules/auth/components/ProtectedRoute';
 import { setupLogging } from 'common/utils/sentry';
 
-import 'react-loading-skeleton/dist/skeleton.css';
 import 'react-toastify/dist/ReactToastify.min.css';
 import 'common/styles/globals.scss';
 import 'common/styles/tailwind.scss';
@@ -61,17 +59,11 @@ export default function RootLayout({ children }) {
         </Head>
         <body>
           <Toast />
-          <SkeletonTheme
-            borderRadius={18}
-            baseColor="#ebebeb"
-            highlightColor="#f5f5f5"
-          >
-            {noAuthPaths.find((rx) => rx.test(pathname)) ? (
-              children
-            ) : (
-              <ProtectedRoute>{children}</ProtectedRoute>
-            )}
-          </SkeletonTheme>
+          {noAuthPaths.find((rx) => rx.test(pathname)) ? (
+            children
+          ) : (
+            <ProtectedRoute>{children}</ProtectedRoute>
+          )}
         </body>
       </html>
     </ErrorBoundary>
