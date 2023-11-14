@@ -13,7 +13,7 @@ const Page = () => {
 
   return (
     <div>
-      <button onClick={() => handleLogout()} class="btn">
+      <button onClick={() => handleLogout()} className="btn">
         Logout
       </button>
     </div>
