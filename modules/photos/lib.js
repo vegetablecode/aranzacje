@@ -1,4 +1,11 @@
-import { collection, doc, addDoc, query, getDocs } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  addDoc,
+  query,
+  getDocs,
+  getDoc,
+} from 'firebase/firestore';
 import { db } from 'common/config/firebase';
 
 export const addNewPhoto = async (user, url) => {
@@ -23,4 +30,12 @@ export const getPhotos = async (user) => {
       ...doc.data(),
     };
   });
+};
+
+export const getPhoto = async (user, photoId) => {
+  const photoSnap = await getDoc(
+    doc(db, `users/${user.uid}/photos/${photoId}`)
+  );
+
+  return photoSnap.data();
 };
