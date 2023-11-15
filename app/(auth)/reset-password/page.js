@@ -19,7 +19,7 @@ const Page = () => {
 
   useEffect(() => {
     if (user) {
-      router.push('/profile');
+      router.push('/photos');
     }
   }, []);
 

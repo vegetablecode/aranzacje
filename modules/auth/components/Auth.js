@@ -16,7 +16,7 @@ const Auth = ({ isSignUpMode }) => {
 
   useEffect(() => {
     if (user) {
-      router.push('/profile');
+      router.push('/photos');
     }
   }, user);
 
@@ -32,7 +32,7 @@ const Auth = ({ isSignUpMode }) => {
       } else {
         await login(data.email, data.password);
       }
-      router.push('/profile');
+      router.push('/photos');
     } catch (err) {
       makeErrorToast(mapAuthErrorToMessage(err));
       setIsLoading(false);
@@ -43,7 +43,7 @@ const Auth = ({ isSignUpMode }) => {
     setIsLoading(true);
     try {
       await loginWithGoogle();
-      router.push('/profile');
+      router.push('/photos');
     } catch (err) {
       console.log(err);
       makeErrorToast(mapAuthErrorToMessage(err));
@@ -53,8 +53,15 @@ const Auth = ({ isSignUpMode }) => {
 
   return (
     <div className="flex pt-10 px-4 flex-col items-center justify-center">
-      <div className="text-3xl font-semibold text-center">
-        {isSignUpMode ? 'Zarejestruj się' : 'Zaloguj się'}
+      <div className="text-center">
+        <div className="text-3xl font-semibold-text-center">
+          {isSignUpMode ? 'Zarejestruj się 🔥' : 'Zaloguj się ⬇️'}
+        </div>
+        <div className="mt-2">
+          {isSignUpMode
+            ? '...by nie utracić postępu'
+            : 'by przeglądać swoje kreacje ✨'}
+        </div>
       </div>
       <form
         className="w-full flex items-center justify-center"
@@ -69,12 +76,12 @@ const Auth = ({ isSignUpMode }) => {
               />
             </div>
           </div>
-          <div className="divider">OR</div>
+          <div className="divider">LUB</div>
           <div className="flex flex-col space-y-4">
             <TextInput
               id="email"
               type="text"
-              placeholder="Email Address"
+              placeholder="Adres e-mail"
               className="input"
               register={register}
               required
@@ -82,7 +89,7 @@ const Auth = ({ isSignUpMode }) => {
             <TextInput
               id="password"
               type="password"
-              placeholder="Password"
+              placeholder="Hasło"
               className="input"
               register={register}
               required

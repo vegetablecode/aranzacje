@@ -1,10 +1,10 @@
 import { create } from 'zustand';
 
-const useOnboardingStore = create((set) => ({
+const usePhotoStore = create((set) => ({
   image: '',
   isLoading: true,
   setImage: (image) => set({ image }),
   setIsLoading: (isLoading) => set({ isLoading }),
 }));
 
-export default useOnboardingStore;
+export default usePhotoStore;

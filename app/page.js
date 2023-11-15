@@ -1,76 +1,29 @@
 'use client';
 
-import {
-  ArrowRightIcon,
-  CloudArrowUpIcon,
-  PhotoIcon,
-  PlusIcon,
-} from '@heroicons/react/24/outline';
-import { useRef, useState } from 'react';
+import { ArrowRightIcon, PlusIcon } from '@heroicons/react/24/outline';
+import { useEffect, useRef, useState } from 'react';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { storage } from 'common/config/firebase';
 import { v4 as uuid } from 'uuid';
-import useOnboardingStore from 'modules/onboarding/store';
-import classNames from 'common/utils/classNames';
-
-const Header = () => (
-  <div className="text-center">
-    <div className="text-md uppercase">witaj w</div>
-    <div className="text-transparent text-4xl font-bold bg-clip-text bg-gradient-to-b from-red-600 to-orange-600">
-      Aranżacje AI <span className="text-white">🤖</span>
-    </div>
-  </div>
-);
-
-const PhotoFrame = ({ image, isLoading, progress }) =>
-  image ? (
-    <div className="card bg-neutral overflow-hidden flex flex-col items-center justify-center text-center border border-dashed">
-      <img src={image} alt="room" className="w-auto h-64" />
-      {isLoading ? (
-        <>
-          <div className="bg-black absolute h-64 w-full opacity-40"></div>
-          <div className="absolute">
-            <div
-              className="radial-progress text-white"
-              style={{ '--value': progress }}
-              role="progressbar"
-            >
-              {progress}%
-            </div>
-          </div>
-        </>
-      ) : (
-        ''
-      )}
-    </div>
-  ) : (
-    <div className="card bg-neutral flex flex-col items-center justify-center space-y-4 w-full py-10 px-5 text-center h-64 border border-dashed">
-      <PhotoIcon className="h-10 w-10" />
-      <div>Aby rozpocząć wykonaj zdjęcia pomieszczenia 📷</div>
-    </div>
-  );
-
-const BottomPrimaryButton = ({ text, icon, onClick, isLoading }) => (
-  <div className="fixed bottom-0 p-5 w-full">
-    <button
-      onClick={onClick}
-      className={classNames(
-        'btn btn-primary w-full',
-        isLoading ? 'btn-loading' : ''
-      )}
-    >
-      {isLoading ? <span className="loading loading-spinner"></span> : icon}
-      {text}
-    </button>
-  </div>
-);
+import usePhotoStore from 'modules/photos/store';
+import { useRouter } from 'next/navigation';
+import Header from 'modules/photos/components/Header';
+import BottomPrimaryButton from 'modules/photos/components/BottomPrimaryButton';
+import PhotoFrame from 'modules/photos/components/PhotoFrame';
 
 const Home = () => {
   const [file, setFile] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [percent, setPercent] = useState(0);
-  const { image, setImage } = useOnboardingStore();
+  const { image, setImage } = usePhotoStore();
   const hiddenFileInput = useRef(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (file) {
+      handleUpload();
+    }
+  }, [file]);
 
   const handleChange = (event) => {
     setFile(event.target.files[0]);
@@ -105,7 +58,7 @@ const Home = () => {
 
   return (
     <div className="w-screen min-h-screen px-5 pt-12 pb-20 flex flex-col space-y-8 items-center justify-start">
-      <Header />
+      <Header showIntro />
       <PhotoFrame
         image={file ? URL.createObjectURL(file) : null}
         isLoading={isLoading}
@@ -122,11 +75,11 @@ const Home = () => {
         ref={hiddenFileInput}
         style={{ display: 'none' }}
       />
-      {file ? (
+      {image ? (
         <BottomPrimaryButton
           text="Dalej"
           icon={<ArrowRightIcon className="w-5 h-5" />}
-          onClick={handleUpload}
+          onClick={() => router.push('/signup')}
           isLoading={isLoading}
           iconRight
         />
