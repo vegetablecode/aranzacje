@@ -6,7 +6,11 @@ import { addNewPhoto, getPhotos } from 'modules/photos/lib';
 import useAuthStore from 'modules/auth/store';
 import { onError } from 'common/utils/sentry';
 import BottomPrimaryButton from 'modules/photos/components/BottomPrimaryButton';
-import { PhotoIcon } from '@heroicons/react/24/outline';
+import {
+  ChevronRightIcon,
+  PhotoIcon,
+  TrashIcon,
+} from '@heroicons/react/24/outline';
 import { useRouter } from 'next/navigation';
 
 const Page = () => {
@@ -41,20 +45,19 @@ const Page = () => {
   const renderPhotos = () => (
     <>
       <div className="flex flex-col space-y-4">
+        <div className="text-2xl font-semibold">Wybierz pomieszczenie 👇</div>
         {data.map((item) => (
-          <div key={item.id} className="card bg-neutral overflow-hidden">
-            <img src={item.url} alt="room" className="w-auto h-64" />
-            <div className="card-body">
-              <div className="card-actions justify-end">
-                <button
-                  onClick={() => router.push('/photos/'.concat(item.id))}
-                  className="btn btn-primary w-full"
-                >
-                  Aranżuj 🤖
-                </button>
-              </div>
+          <button
+            key={item.id}
+            onClick={() => router.push('/photos/'.concat(item.id))}
+            className="card bg-neutral overflow-hidden w-full"
+          >
+            <img src={item.url} alt="filter" />
+            <div className="p-5 flex w-full justify-between items-center">
+              <div>Aranżuj 🤖</div>
+              <ChevronRightIcon className="h-4 w-4" />
             </div>
-          </div>
+          </button>
         ))}
       </div>
       <BottomPrimaryButton

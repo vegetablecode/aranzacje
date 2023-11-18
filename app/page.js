@@ -73,7 +73,7 @@ const Home = () => {
         onChange={handleChange}
         accept="/image/*"
         ref={hiddenFileInput}
-        style={{ display: 'none' }}
+        className="file-input"
       />
       {image ? (
         <BottomPrimaryButton

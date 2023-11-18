@@ -1,7 +1,7 @@
 import classNames from 'common/utils/classNames';
 
 const BottomPrimaryButton = ({ text, icon, onClick, isLoading }) => (
-  <div className="fixed bottom-0 p-5 w-full">
+  <div className="fixed bottom-0 z-50 p-5 w-full">
     <button
       onClick={onClick}
       className={classNames(
