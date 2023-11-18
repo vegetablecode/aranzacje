@@ -121,19 +121,18 @@ const Page = () => {
             ) : (
               <div className="card image-full border border-dashed overflow-hidden mt-4 h-auto">
                 <img className="h-auto blur" src={photo.url} alt="style" />
-                <div className="card-body flex flex-col justify-center items-center">
-                  <div
-                    className="radial-progress"
-                    style={{ '--value': 70 }}
-                    role="progressbar"
-                  >
-                    70%
+                {isLoading ? (
+                  <div className="card-body flex flex-col justify-center items-center">
+                    <span className="loading loading-infinity loading-lg"></span>
+                    <div className="flex space-x-2 items-center">
+                      <div>AI generuje nowe wnętrze...</div>
+                    </div>
                   </div>
-                  <div className="flex space-x-2 items-center">
-                    <div className="loading loading-infinity loading-xs"></div>
-                    <div>AI generuje nowe wnętrze...</div>
+                ) : (
+                  <div class="card-body flex items-center justify-center">
+                    Rozpocznij generowanie...
                   </div>
-                </div>
+                )}
               </div>
             )}
           </>
