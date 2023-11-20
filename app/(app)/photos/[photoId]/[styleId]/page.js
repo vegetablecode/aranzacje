@@ -14,6 +14,17 @@ import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Replicate from 'replicate';
 
+const getLastPercentage = (text) => {
+  const regex = /(\d+)%[^%]*$/;
+  const match = text.match(regex);
+
+  if (match) {
+    return parseInt(match[1], 10);
+  } else {
+    return -1;
+  }
+};
+
 const Page = () => {
   const { photoId, styleId } = useParams();
   const [photo, setPhoto] = useState(null);
@@ -21,6 +32,7 @@ const Page = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState(null);
   const { user } = useAuthStore();
+  const [progress, setProgress] = useState(0);
 
   const getStyle = () =>
     STYLES.map((style) => style.filters)
@@ -67,7 +79,10 @@ const Page = () => {
         onError(prediction.detail, 'Nie udało się pobrać pomieszczeń');
         return;
       }
-      console.log({ prediction });
+      console.log('STATUS: ', prediction.status);
+      if (prediction?.logs) {
+        setProgress(getLastPercentage(prediction.logs));
+      }
       setPrediction(prediction);
     }
   };
@@ -120,17 +135,44 @@ const Page = () => {
               </div>
             ) : (
               <div className="card image-full border border-dashed overflow-hidden mt-4 h-auto">
-                <img className="h-auto blur" src={photo.url} alt="style" />
+                <img
+                  className="h-auto blur"
+                  style={{ opacity: progress }}
+                  src={photo.url}
+                  alt="style"
+                />
                 {isLoading ? (
                   <div className="card-body flex flex-col justify-center items-center">
-                    <span className="loading loading-infinity loading-lg"></span>
-                    <div className="flex space-x-2 items-center">
-                      <div>AI generuje nowe wnętrze...</div>
-                    </div>
+                    {prediction?.status === 'starting' ? (
+                      <>
+                        <div className="loading loading-infinity loading-lg"></div>
+                        <div className="flex space-x-2 items-center">
+                          <div>Czekamy w kolejce do naszego 🤖</div>
+                        </div>
+                      </>
+                    ) : (
+                      ''
+                    )}
+                    {prediction?.status === 'processing' ? (
+                      <>
+                        <div
+                          className="radial-progress"
+                          style={{ '--value': progress }}
+                          role="progressbar"
+                        >
+                          {progress}%
+                        </div>
+                        <div className="flex space-x-2 items-center">
+                          <div>AI generuje nowe wnętrze...</div>
+                        </div>
+                      </>
+                    ) : (
+                      ''
+                    )}
                   </div>
                 ) : (
                   <div class="card-body flex items-center justify-center">
-                    Rozpocznij generowanie...
+                    👇 Kliknij &apos;Generuj&apos; by rozpocząć! 👇
                   </div>
                 )}
               </div>
