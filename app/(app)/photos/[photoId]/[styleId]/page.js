@@ -33,6 +33,7 @@ const Page = () => {
       }),
     });
     let prediction = await response.json();
+    console.log('pd: ', prediction);
     if (response.status !== 201) {
       onError(prediction.detail, 'Nie udało się wygenerować pomieszczenia');
       return;
@@ -84,7 +85,6 @@ const Page = () => {
         if (photoId) {
           const photo = await getPhoto(user, photoId);
           const prediction = await getPrediction(user, photoId, style.id);
-          console.log('pred: ', prediction);
           setPhoto(photo);
           if (prediction !== null && !prediction.output && prediction.id) {
             setIsLoading(false);
@@ -168,8 +168,6 @@ const Page = () => {
     ) : (
       ''
     );
-
-  console.log('data: ', data);
 
   const renderSkeleton = () => (
     <div className="flex flex-col space-y-4">

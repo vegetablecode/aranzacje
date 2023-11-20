@@ -1,6 +1,5 @@
 export async function POST(req) {
   const data = await req.json();
-  console.log('start: ', data);
   const response = await fetch('https://api.replicate.com/v1/predictions', {
     method: 'POST',
     headers: {
@@ -10,7 +9,7 @@ export async function POST(req) {
     body: JSON.stringify({
       version:
         '8a89b0ab59a050244a751b6475d91041a8582ba33692ae6fab65e0c51b700328',
-      input: { image: data.image, prompt: data.propmt, num_samples: 4 },
+      input: { prompt: data.propmt, image: data.image, num_samples: 4 },
     }),
   });
 
