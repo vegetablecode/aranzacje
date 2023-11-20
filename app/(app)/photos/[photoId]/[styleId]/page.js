@@ -1,49 +1,24 @@
 'use client';
-import {
-  ArrowDownCircleIcon,
-  ArrowLeftIcon,
-} from '@heroicons/react/24/outline';
+import { ArrowDownCircleIcon, FireIcon } from '@heroicons/react/24/outline';
 import { onError } from 'common/utils/sentry';
+import sleep from 'common/utils/sleep';
 import useAuthStore from 'modules/auth/store';
 import BottomPrimaryButton from 'modules/photos/components/BottomPrimaryButton';
 import Navbar from 'modules/photos/components/Navbar';
-import PhotoFrame from 'modules/photos/components/PhotoFrame';
-import { getPhoto } from 'modules/photos/lib';
-import STYLES from 'modules/photos/styles';
-import { useParams, useRouter } from 'next/navigation';
+import { addNewPrediction, getPhoto, getPrediction } from 'modules/photos/lib';
+import { getLastPercentage, getStyle } from 'modules/photos/utils';
+import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import Replicate from 'replicate';
-
-const getLastPercentage = (text) => {
-  const regex = /(\d+)%[^%]*$/;
-  const match = text.match(regex);
-
-  if (match) {
-    return parseInt(match[1], 10);
-  } else {
-    return -1;
-  }
-};
 
 const Page = () => {
   const { photoId, styleId } = useParams();
   const [photo, setPhoto] = useState(null);
-  const [prediction, setPrediction] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isGenerating, setIsGenerating] = useState(false);
   const { user } = useAuthStore();
   const [progress, setProgress] = useState(0);
-
-  const getStyle = () =>
-    STYLES.map((style) => style.filters)
-      .flat()
-      .filter((style) => style.id === styleId)[0];
-
-  const style = getStyle();
-
-  const sleep = (ms) => {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  };
+  const style = getStyle(styleId);
 
   const generatePhotos = async (e) => {
     e.preventDefault();
@@ -57,139 +32,175 @@ const Page = () => {
         prompt: style.prompt,
       }),
     });
-    console.log('res: ', response);
     let prediction = await response.json();
-    console.log('pred: ', prediction);
     if (response.status !== 201) {
       onError(prediction.detail, 'Nie udało się wygenerować pomieszczenia');
       return;
     }
-    setPrediction(prediction);
+    await addNewPrediction(user, photoId, style, prediction);
+    setData(prediction);
 
+    await checkPredictions(prediction);
+  };
+
+  const checkPredictions = async (prediction) => {
     while (
       prediction.status !== 'succeeded' &&
       prediction.status !== 'failed'
     ) {
-      await sleep(1000);
+      await sleep(2000);
       const response = await fetch('/api/interior?id=' + prediction.id, {
         method: 'GET',
       });
       prediction = await response.json();
+
       if (response.status !== 200) {
         onError(prediction.detail, 'Nie udało się pobrać pomieszczeń');
         return;
       }
-      console.log('STATUS: ', prediction.status);
+
       if (prediction?.logs) {
         setProgress(getLastPercentage(prediction.logs));
       }
-      setPrediction(prediction);
+
+      setData(prediction);
     }
   };
 
   useEffect(() => {
-    if (prediction?.output) {
-      setIsLoading(false);
-    }
-  }, [prediction]);
+    const onOutput = async () => {
+      await addNewPrediction(user, photoId, style, data);
+    };
 
-  console.log('data: ', data);
+    if (data?.output) {
+      setIsGenerating(false);
+      onOutput();
+    }
+  }, [data]);
 
   useEffect(() => {
     const onLoad = async () => {
       try {
         if (photoId) {
-          setPhoto(await getPhoto(user, photoId));
+          const photo = await getPhoto(user, photoId);
+          const prediction = await getPrediction(user, photoId, style.id);
+          console.log('pred: ', prediction);
+          setPhoto(photo);
+          if (prediction !== null && !prediction.output && prediction.id) {
+            setIsLoading(false);
+            setIsGenerating(true);
+            await checkPredictions(prediction);
+          } else {
+            setData(prediction);
+          }
         }
       } catch (err) {
         onError(err, 'Nie udało się wczytać renderów 😭');
       }
+      setIsLoading(false);
     };
 
     onLoad();
   }, []);
 
+  const renderStarting = () => (
+    <>
+      <div className="loading loading-infinity loading-lg"></div>
+      <div className="flex space-x-2 items-center">
+        <div>Budzimy naszego robota 😴🤖</div>
+      </div>
+    </>
+  );
+
+  const renderProcessing = () => (
+    <>
+      <div
+        className="radial-progress"
+        style={{ '--value': progress }}
+        role="progressbar"
+      >
+        {progress}%
+      </div>
+      <div className="flex space-x-2 items-center">
+        <div>Trwa generowanie ✨</div>
+      </div>
+    </>
+  );
+
+  const renderContent = () =>
+    photo ? (
+      <>
+        <div className="bg-neutral card border border-dashed overflow-hidden">
+          <img className="h-auto" src={photo.url} alt="style" />
+        </div>
+        <div className="flex justify-center mt-4">
+          <ArrowDownCircleIcon className="w-5 h-5" />
+        </div>
+        {data?.output ? (
+          <div className="mt-4 flex flex-col space-y-4">
+            {data.output.slice(1).map((item) => (
+              <div key={item} className="card border overflow-hidden h-auto">
+                <img className="w-full h-auto" src={item} alt="design" />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="card image-full border border-dashed overflow-hidden mt-4 h-auto">
+            <img
+              className="h-auto blur"
+              style={{ opacity: progress * 0.01 }}
+              src={photo.url}
+              alt="style"
+            />
+            {isGenerating ? (
+              <div className="card-body flex flex-col justify-center items-center">
+                {data?.status === 'starting' ? renderStarting() : ''}
+                {data?.status === 'processing' ? renderProcessing() : ''}
+              </div>
+            ) : (
+              <div className="card-body flex items-center justify-center">
+                👇 Kliknij &apos;Generuj&apos; by rozpocząć! 👇
+              </div>
+            )}
+          </div>
+        )}
+      </>
+    ) : (
+      ''
+    );
+
+  console.log('data: ', data);
+
+  const renderSkeleton = () => (
+    <div className="flex flex-col space-y-4">
+      <div className="skeleton h-80 w-full"></div>
+      <div className="flex justify-center mt-4">
+        <ArrowDownCircleIcon className="w-5 h-5" />
+      </div>
+      <div className="skeleton h-80 w-full"></div>
+    </div>
+  );
+
   return (
     <>
       <Navbar title={'Styl ' + style.label} />
       <div className="flex flex-col justify-start w-full">
-        {photo ? (
-          <>
-            <div className="bg-neutral card border border-dashed overflow-hidden">
-              <img className="h-auto" src={photo.url} alt="style" />
-            </div>
-            <div className="flex justify-center mt-4">
-              <ArrowDownCircleIcon className="w-5 h-5" />
-            </div>
-            {prediction?.output ? (
-              <div className="mt-4 flex flex-col space-y-4">
-                {[1, 2, 3].map((idx) => (
-                  <div key={idx} className="card border overflow-hidden h-auto">
-                    <img
-                      className="w-full h-auto"
-                      src={prediction.output[idx]}
-                      alt="design"
-                    />
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="card image-full border border-dashed overflow-hidden mt-4 h-auto">
-                <img
-                  className="h-auto blur"
-                  style={{ opacity: progress }}
-                  src={photo.url}
-                  alt="style"
-                />
-                {isLoading ? (
-                  <div className="card-body flex flex-col justify-center items-center">
-                    {prediction?.status === 'starting' ? (
-                      <>
-                        <div className="loading loading-infinity loading-lg"></div>
-                        <div className="flex space-x-2 items-center">
-                          <div>Czekamy w kolejce do naszego 🤖</div>
-                        </div>
-                      </>
-                    ) : (
-                      ''
-                    )}
-                    {prediction?.status === 'processing' ? (
-                      <>
-                        <div
-                          className="radial-progress"
-                          style={{ '--value': progress }}
-                          role="progressbar"
-                        >
-                          {progress}%
-                        </div>
-                        <div className="flex space-x-2 items-center">
-                          <div>AI generuje nowe wnętrze...</div>
-                        </div>
-                      </>
-                    ) : (
-                      ''
-                    )}
-                  </div>
-                ) : (
-                  <div class="card-body flex items-center justify-center">
-                    👇 Kliknij &apos;Generuj&apos; by rozpocząć! 👇
-                  </div>
-                )}
-              </div>
-            )}
-          </>
-        ) : (
-          <div className="w-full h-auto skeleton"></div>
-        )}
+        {isLoading ? renderSkeleton() : renderContent()}
       </div>
-      <BottomPrimaryButton
-        onClick={(e) => {
-          setIsLoading(true);
-          generatePhotos(e);
-        }}
-        text="Generuj"
-        isLoading={isLoading}
-      />
+      {data?.output ? (
+        ''
+      ) : (
+        <BottomPrimaryButton
+          onClick={(e) => {
+            setIsGenerating(true);
+            generatePhotos(e);
+          }}
+          icon={<FireIcon className="h-5 w-5" />}
+          text="Generuj"
+          isLoading={isGenerating}
+          disabled={isGenerating}
+        />
+      )}
     </>
   );
 };

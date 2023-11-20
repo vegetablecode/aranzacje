@@ -5,6 +5,7 @@ import {
   query,
   getDocs,
   getDoc,
+  setDoc,
 } from 'firebase/firestore';
 import { db } from 'common/config/firebase';
 
@@ -38,4 +39,20 @@ export const getPhoto = async (user, photoId) => {
   );
 
   return photoSnap.data();
+};
+
+export const addNewPrediction = async (user, photoId, style, prediction) => {
+  await setDoc(
+    doc(db, `users/${user.uid}/photos/${photoId}/predictions/${style.id}`),
+    { prediction: prediction }
+  );
+};
+
+export const getPrediction = async (user, photoId, styleId) => {
+  const predictionSnap = await getDoc(
+    doc(db, `users/${user.uid}/photos/${photoId}/predictions/${styleId}`)
+  );
+  const data = predictionSnap.data();
+  console.log('dt: ', data);
+  return data?.prediction ?? null;
 };
