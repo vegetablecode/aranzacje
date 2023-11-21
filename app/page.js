@@ -50,6 +50,7 @@ const Home = () => {
             setImage(url);
             setIsLoading(false);
             console.log(url);
+            router.push('/signup');
           });
         }
       );
@@ -75,21 +76,13 @@ const Home = () => {
         ref={hiddenFileInput}
         className="file-input h-0"
       />
-      {image ? (
-        <BottomPrimaryButton
-          text="Dalej"
-          icon={<ArrowRightIcon className="w-5 h-5" />}
-          onClick={() => router.push('/signup')}
-          isLoading={isLoading}
-          iconRight
-        />
-      ) : (
-        <BottomPrimaryButton
-          text="Wybierz zdjęcie"
-          icon={<PlusIcon className="w-5 h-5" />}
-          onClick={() => hiddenFileInput.current.click()}
-        />
-      )}
+      <BottomPrimaryButton
+        text="Wybierz zdjęcie"
+        isLoading={isLoading}
+        disabled={isLoading}
+        icon={<PlusIcon className="w-5 h-5" />}
+        onClick={() => hiddenFileInput.current.click()}
+      />
     </div>
   );
 };
