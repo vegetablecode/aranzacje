@@ -29,7 +29,6 @@ export async function POST(req) {
 
   if (response.status !== 201) {
     let error = await response.json();
-    console.log('error: ', error);
     return Response.json(
       { detail: error.detail },
       {

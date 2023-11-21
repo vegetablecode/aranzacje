@@ -53,6 +53,5 @@ export const getPrediction = async (user, photoId, styleId) => {
     doc(db, `users/${user.uid}/photos/${photoId}/predictions/${styleId}`)
   );
   const data = predictionSnap.data();
-  console.log('dt: ', data);
   return data?.prediction ?? null;
 };

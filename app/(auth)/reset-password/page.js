@@ -27,10 +27,10 @@ const Page = () => {
     mode: 'onTouched',
   });
 
-  const handleResetForm = async (data) => {
+  const handleResetForm = async () => {
     setIsLoading(true);
     try {
-      await resetPassword(data.email);
+      await resetPassword(email);
       setIsLoading(false);
       makeSuccessToast('A reset link has been sent to your email');
       router.push('/login');
@@ -55,8 +55,6 @@ const Page = () => {
             type="text"
             placeholder="Email Address"
             className="input"
-            register={register}
-            required
           />
           <button type="submit" className="btn btn-primary">
             <span

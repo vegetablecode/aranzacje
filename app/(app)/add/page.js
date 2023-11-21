@@ -1,23 +1,23 @@
 'use client';
-
+import Navbar from 'modules/photos/components/Navbar';
+import PhotoFrame from 'modules/photos/components/PhotoFrame';
 import { ArrowRightIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { useEffect, useRef, useState } from 'react';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { storage } from 'common/config/firebase';
 import { v4 as uuid } from 'uuid';
-import usePhotoStore from 'modules/photos/store';
 import { useRouter } from 'next/navigation';
-import Header from 'modules/photos/components/Header';
 import BottomPrimaryButton from 'modules/photos/components/BottomPrimaryButton';
-import PhotoFrame from 'modules/photos/components/PhotoFrame';
+import useAuthStore from 'modules/auth/store';
+import { addNewPhoto } from 'modules/photos/lib';
 
-const Home = () => {
+const Page = () => {
   const [file, setFile] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [percent, setPercent] = useState(0);
-  const { image, setImage } = usePhotoStore();
   const hiddenFileInput = useRef(null);
   const router = useRouter();
+  const { user } = useAuthStore();
 
   useEffect(() => {
     if (file) {
@@ -47,18 +47,22 @@ const Home = () => {
         (err) => console.log(err),
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-            setImage(url);
-            setIsLoading(false);
-            router.push('/signup');
+            saveImage(url);
           });
         }
       );
     }
   };
 
+  const saveImage = async (image) => {
+    await addNewPhoto(user, image);
+    router.push('/photos');
+    setIsLoading(false);
+  };
+
   return (
     <div className="w-screen min-h-screen px-5 pt-12 pb-20 flex flex-col space-y-8 items-center justify-start">
-      <Header showIntro />
+      <Navbar title="Dodaj pomieszczenie ✨" />
       <PhotoFrame
         image={file ? URL.createObjectURL(file) : null}
         isLoading={isLoading}
@@ -86,4 +90,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Page;

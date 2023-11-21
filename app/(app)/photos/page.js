@@ -6,11 +6,7 @@ import { addNewPhoto, getPhotos } from 'modules/photos/lib';
 import useAuthStore from 'modules/auth/store';
 import { onError } from 'common/utils/sentry';
 import BottomPrimaryButton from 'modules/photos/components/BottomPrimaryButton';
-import {
-  ChevronRightIcon,
-  PhotoIcon,
-  TrashIcon,
-} from '@heroicons/react/24/outline';
+import { ChevronRightIcon, PhotoIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/navigation';
 
 const Page = () => {
@@ -20,8 +16,6 @@ const Page = () => {
   const [data, setData] = useState(null);
 
   const router = useRouter();
-
-  console.log(data);
 
   useEffect(() => {
     const onLoad = async () => {
@@ -41,6 +35,8 @@ const Page = () => {
 
     onLoad();
   }, [image]);
+
+  console.log(data);
 
   const renderPhotos = () => (
     <>
@@ -63,7 +59,7 @@ const Page = () => {
       <BottomPrimaryButton
         text="Dodaj nowe pomieszczenie"
         icon={<PhotoIcon className="w-5 h-5" />}
-        onClick={() => console.log('add new')}
+        onClick={() => router.push('/add')}
       />
     </>
   );

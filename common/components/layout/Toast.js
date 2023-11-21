@@ -11,8 +11,8 @@ const makeErrorToast = (message) => {
 const Toast = () => {
   return (
     <ToastContainer
-      position='top-center'
-      autoClose={500}
+      position="top-center"
+      autoClose={1500}
       hideProgressBar={true}
       newestOnTop={false}
       closeOnClick
@@ -20,7 +20,7 @@ const Toast = () => {
       pauseOnFocusLoss
       draggable
       pauseOnHover
-      theme='colored'
+      theme="colored"
     />
   );
 };

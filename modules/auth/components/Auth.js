@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
 import { makeErrorToast } from 'common/components/layout/Toast';
 import mapAuthErrorToMessage from 'common/utils/mapAuthErrorToMessage';
 import ProviderLoginButton from 'modules/auth/components/ProviderLoginButton';
@@ -13,6 +12,8 @@ const Auth = ({ isSignUpMode }) => {
   const router = useRouter();
   const { user } = useAuthStore();
   const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   useEffect(() => {
     if (user) {
@@ -20,17 +21,13 @@ const Auth = ({ isSignUpMode }) => {
     }
   }, user);
 
-  const { handleSubmit, register } = useForm({
-    mode: 'onTouched',
-  });
-
-  const handleRegistration = async (data) => {
+  const handleAuth = async () => {
     setIsLoading(true);
     try {
       if (isSignUpMode) {
-        await signUp(data.email, data.password);
+        await signUp(email, password);
       } else {
-        await login(data.email, data.password);
+        await login(email, password);
       }
       router.push('/photos');
     } catch (err) {
@@ -45,7 +42,6 @@ const Auth = ({ isSignUpMode }) => {
       await loginWithGoogle();
       router.push('/photos');
     } catch (err) {
-      console.log(err);
       makeErrorToast(mapAuthErrorToMessage(err));
       setIsLoading(false);
     }
@@ -63,10 +59,7 @@ const Auth = ({ isSignUpMode }) => {
             : 'by przeglądać swoje kreacje ✨'}
         </div>
       </div>
-      <form
-        className="w-full flex items-center justify-center"
-        onSubmit={handleSubmit(handleRegistration)}
-      >
+      <div className="w-full flex items-center justify-center">
         <div className="flex card w-full space-y-12 max-w-lg bg-neutral p-8 flex-col mt-8">
           <div className="flex flex-col space-y-4">
             <div className="flex flex-col space-y-2 items-center">
@@ -83,20 +76,20 @@ const Auth = ({ isSignUpMode }) => {
               type="text"
               placeholder="Adres e-mail"
               className="input"
-              register={register}
-              required
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
             />
             <TextInput
               id="password"
               type="password"
               placeholder="Hasło"
               className="input"
-              register={register}
-              required
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
             />
           </div>
           <div className="flex flex-col space-y-4">
-            <button type="submit" className="btn btn-primary">
+            <button onClick={handleAuth} className="btn btn-primary">
               <span
                 className={classNames(
                   isLoading ? 'loading loading-spinner' : ''
@@ -106,7 +99,7 @@ const Auth = ({ isSignUpMode }) => {
             </button>
           </div>
         </div>
-      </form>
+      </div>
       <div className="mt-4">
         {isSignUpMode ? 'Masz już konto?' : 'Nie masz konta?'}
         <button
