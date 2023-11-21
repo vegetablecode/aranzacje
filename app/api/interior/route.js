@@ -1,5 +1,8 @@
+import Replicate from 'replicate';
+
 export async function POST(req) {
   const data = await req.json();
+
   const response = await fetch('https://api.replicate.com/v1/predictions', {
     method: 'POST',
     headers: {
@@ -9,11 +12,21 @@ export async function POST(req) {
     body: JSON.stringify({
       version:
         '8a89b0ab59a050244a751b6475d91041a8582ba33692ae6fab65e0c51b700328',
-      input: { prompt: data.propmt, image: data.image, num_samples: 4 },
+      input: {
+        image: data.image,
+        prompt: data.prompt,
+        scheduler: 'K_EULER_ANCESTRAL',
+        num_samples: 4,
+        guidance_scale: 7.5,
+        negative_prompt:
+          'anime, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, disfigured',
+        num_inference_steps: 30,
+        adapter_conditioning_scale: 1,
+        adapter_conditioning_factor: 1,
+      },
     }),
   });
 
-  //console.log(response);
   if (response.status !== 201) {
     let error = await response.json();
     console.log('error: ', error);

@@ -33,7 +33,6 @@ const Page = () => {
       }),
     });
     let prediction = await response.json();
-    console.log('pd: ', prediction);
     if (response.status !== 201) {
       onError(prediction.detail, 'Nie udało się wygenerować pomieszczenia');
       return;
