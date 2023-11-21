@@ -20,11 +20,10 @@ const Page = () => {
   useEffect(() => {
     const onLoad = async () => {
       try {
-        if (image) {
-          await addNewPhoto(user, image);
-          setImage(null);
-          //router.push('/photos/' + 'photo_id');
-        }
+        console.log('WGRYWAM TO: ', image);
+        await addNewPhoto(user, image);
+        setImage('');
+        //router.push('/photos/' + 'photo_id');
         setData(await getPhotos(user));
       } catch (err) {
         onError(err, 'Nie udało się wczytać zdjęć 😭');
@@ -33,7 +32,9 @@ const Page = () => {
       setIsLoading(false);
     };
 
-    onLoad();
+    if (image != '') {
+      onLoad();
+    }
   }, [image]);
 
   console.log(data);
