@@ -9,6 +9,10 @@ import { addNewPrediction, getPhoto, getPrediction } from 'modules/photos/lib';
 import { getLastPercentage, getStyle } from 'modules/photos/utils';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import Download from 'yet-another-react-lightbox/plugins/download';
+
+import Lightbox from 'yet-another-react-lightbox';
+import 'yet-another-react-lightbox/styles.css';
 
 const Page = () => {
   const { photoId, styleId } = useParams();
@@ -18,6 +22,7 @@ const Page = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const { user } = useAuthStore();
   const [progress, setProgress] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
   const style = getStyle(styleId);
 
   const generatePhotos = async (e) => {
@@ -126,6 +131,11 @@ const Page = () => {
     </>
   );
 
+  let slides = [];
+  if (photo && data.output) {
+    slides = data.output.slice(1).map((item) => ({ src: item }));
+  }
+
   const renderContent = () =>
     photo ? (
       <>
@@ -135,12 +145,27 @@ const Page = () => {
         <div className="flex justify-center mt-4">
           <ArrowDownCircleIcon className="w-5 h-5" />
         </div>
+        {isOpen ? (
+          <Lightbox
+            open={open}
+            close={() => setIsOpen(false)}
+            slides={slides}
+            plugins={[Download]}
+          />
+        ) : (
+          ''
+        )}
         {data?.output ? (
           <div className="mt-4 flex flex-col space-y-4">
             {data.output.slice(1).map((item) => (
-              <div key={item} className="card border overflow-hidden h-auto">
-                <img className="w-full h-auto" src={item} alt="design" />
-              </div>
+              <button key={item} className="card border overflow-hidden h-auto">
+                <img
+                  onClick={() => setIsOpen(true)}
+                  className="w-full h-auto"
+                  src={item}
+                  alt="design"
+                />
+              </button>
             ))}
           </div>
         ) : (

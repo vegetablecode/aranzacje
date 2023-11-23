@@ -30,6 +30,7 @@
     "theme-change": "^2.5.0",
     "twemoji": "^14.0.2",
     "uuid": "^9.0.1",
+    "yet-another-react-lightbox": "^3.15.2",
     "zustand": "^4.4.6"
   },
   "devDependencies": {

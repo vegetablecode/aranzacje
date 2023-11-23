@@ -3666,11 +3666,6 @@ react-dom@^18.2.0:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
 
-react-hook-form@^7.45.1:
-  version "7.45.1"
-  resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.45.1.tgz#e352c7f4dbc7540f0756abbb4dcfd1122fecc9bb"
-  integrity sha512-6dWoFJwycbuFfw/iKMcl+RdAOAOHDiF11KWYhNDRN/OkUt+Di5qsZHwA0OwsVnu9y135gkHpTw9DJA+WzCeR9w==
-
 react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
@@ -4512,6 +4507,11 @@ yargs@^17.7.2:
     string-width "^4.2.3"
     y18n "^5.0.5"
     yargs-parser "^21.1.1"
+
+yet-another-react-lightbox@^3.15.2:
+  version "3.15.2"
+  resolved "https://registry.yarnpkg.com/yet-another-react-lightbox/-/yet-another-react-lightbox-3.15.2.tgz#4d49a80833dc27271411514cebae8c43941d0a0f"
+  integrity sha512-CtvbdBhpYy4Ip43J2lMcXPp9/jO1qoCMm3GQRwsJY76dEp2hcY5W+sXC7Sk4kU/TU0GJtmMiCNu3daMGRkPzDQ==
 
 yocto-queue@^0.1.0:
   version "0.1.0"
