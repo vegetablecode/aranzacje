@@ -132,7 +132,7 @@ const Page = () => {
   );
 
   let slides = [];
-  if (photo && data.output) {
+  if (photo && data?.output) {
     slides = data.output.slice(1).map((item) => ({ src: item }));
   }
 

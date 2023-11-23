@@ -5,8 +5,8 @@ const Navbar = ({ title, showGoBack = true }) => {
   const router = useRouter();
 
   return (
-    <div className="h-6 w-full">
-      <div className="fixed flex z-50 space-x-4 bg-base-100 items-center px-5 py-6 top-0 left-0 w-full">
+    <div className="h-6 w-full bg-base-100 flex justify-center">
+      <div className="fixed flex bg-base-100 z-50 space-x-4 max-w-xl items-center px-5 py-6 top-0 w-full">
         {showGoBack ? (
           <div className="h-5 flex items-center justify-center w-10">
             <button onClick={() => router.back()} className="btn btn-circle">

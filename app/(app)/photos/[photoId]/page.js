@@ -1,6 +1,7 @@
 'use client';
 
 import { ChevronRightIcon, SparklesIcon } from '@heroicons/react/24/outline';
+import classNames from 'common/utils/classNames';
 import { onError } from 'common/utils/sentry';
 import useAuthStore from 'modules/auth/store';
 import BottomPrimaryButton from 'modules/photos/components/BottomPrimaryButton';
@@ -41,11 +42,15 @@ const Page = () => {
               <div className="text-2xl font-semibold">{item.label}</div>
               {item.free ? '' : <div className="badge badge-primary">PRO</div>}
             </div>
-            <div className="carousel w-full p-5 space-x-4 rounded-box">
+            <div
+              className={classNames(
+                'carousel md:grid grid-cols-2 gap-4 w-full py-5 space-x-4 md:space-x-0 rounded-box'
+              )}
+            >
               {item.filters.map((subitem, idx) => (
                 <button
                   onClick={() => router.push(pathname + '/' + subitem.id)}
-                  className="carousel-item card bg-neutral overflow-hidden w-64"
+                  className="carousel-item card bg-neutral overflow-hidden w-64 md:w-full"
                   key={subitem.id + idx}
                 >
                   {photo?.usedFilters?.includes(subitem.id) ? (
@@ -66,11 +71,15 @@ const Page = () => {
           </div>
         ))}
       </div>
-      <BottomPrimaryButton
-        text="Odblokuj wszystkie style"
-        icon={<SparklesIcon className="w-5 h-5" />}
-        onClick={() => router.push('/add')}
-      />
+      {false ? (
+        <BottomPrimaryButton
+          text="Odblokuj wszystkie style"
+          icon={<SparklesIcon className="w-5 h-5" />}
+          onClick={() => router.push('/add')}
+        />
+      ) : (
+        ''
+      )}
     </>
   );
 };

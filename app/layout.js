@@ -59,11 +59,13 @@ export default function RootLayout({ children }) {
         </Head>
         <body>
           <Toast />
-          {noAuthPaths.find((rx) => rx.test(pathname)) ? (
-            children
-          ) : (
-            <ProtectedRoute>{children}</ProtectedRoute>
-          )}
+          <div className="flex flex-col mx-auto max-w-xl">
+            {noAuthPaths.find((rx) => rx.test(pathname)) ? (
+              children
+            ) : (
+              <ProtectedRoute>{children}</ProtectedRoute>
+            )}
+          </div>
         </body>
       </html>
     </ErrorBoundary>
