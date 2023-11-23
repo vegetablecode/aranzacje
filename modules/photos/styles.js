@@ -1,6 +1,7 @@
 const STYLES = [
   {
     id: 'free',
+    free: true,
     label: 'Style DARMOWE 🤑',
     filters: [
       {
@@ -21,6 +22,13 @@ const STYLES = [
     id: 'classic',
     label: 'Style Klasyczne 💁‍♂️',
     filters: [
+      {
+        id: 'oasis',
+        label: 'Oaza zieleni 🪴',
+        prompt:
+          'Green Oasis, Design an interior with plenty of potted plants. Select diverse species and different-sized pots to create a jungle-like effect indoors. Use stands, hanging shelves, or create green walls to maximize space.',
+        image: '/images/oasis.jpeg',
+      },
       {
         id: 'modern',
         label: 'Modernistyczny ✌️',
@@ -91,9 +99,16 @@ const STYLES = [
     ],
   },
   {
-    id: 'nature',
+    id: 'scandinavian',
     label: 'Style skandynawskie 🇳🇴',
     filters: [
+      {
+        id: 'boho',
+        label: 'Skandynawski Boho 🌿',
+        prompt:
+          'Scandinavian Interior with Boho Accents: Combine the simplicity of Scandinavian style with colorful and ethnic Boho accents. Use light wall colors and furniture, then add rich patterns, soft rugs, and handmade accessories.',
+        image: '/images/boho.jpeg',
+      },
       {
         id: 'ikea',
         label: 'Szwedzki 🇸🇪',
@@ -189,6 +204,13 @@ const STYLES = [
         label: 'Futurystyczny 🚀',
         prompt: 'future design',
         image: '/images/future.jpeg',
+      },
+      {
+        id: 'artistic',
+        label: 'Dusza Artysty 🧑‍🎨',
+        prompt:
+          'Artistic Space, Create an interior inspired by art, where walls serve as a gallery for your favorite pieces. Use muted colors on the walls to emphasize the artworks. You can also add a focal point spotlighting a selected painting',
+        image: '/images/artistic.jpeg',
       },
     ],
   },
