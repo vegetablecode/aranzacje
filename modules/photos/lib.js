@@ -6,6 +6,8 @@ import {
   getDocs,
   getDoc,
   setDoc,
+  updateDoc,
+  arrayUnion,
 } from 'firebase/firestore';
 import { db } from 'common/config/firebase';
 
@@ -46,6 +48,10 @@ export const addNewPrediction = async (user, photoId, style, prediction) => {
     doc(db, `users/${user.uid}/photos/${photoId}/predictions/${style.id}`),
     { prediction: prediction }
   );
+
+  await updateDoc(doc(db, `users/${user.uid}/photos/${photoId}`), {
+    usedFilters: arrayUnion(style.id),
+  });
 };
 
 export const getPrediction = async (user, photoId, styleId) => {

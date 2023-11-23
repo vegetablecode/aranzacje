@@ -1,7 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
 import {
   makeErrorToast,
   makeSuccessToast,
@@ -16,6 +15,7 @@ const Page = () => {
   const router = useRouter();
   const { user } = useAuthStore();
   const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState('');
 
   useEffect(() => {
     if (user) {
@@ -23,11 +23,7 @@ const Page = () => {
     }
   }, []);
 
-  const { handleSubmit, register } = useForm({
-    mode: 'onTouched',
-  });
-
-  const handleResetForm = async () => {
+  const handleReset = async () => {
     setIsLoading(true);
     try {
       await resetPassword(email);
@@ -45,25 +41,24 @@ const Page = () => {
       <div className="text-3xl font-semibold text-center">
         Przypomnienie hasła
       </div>
-      <form
-        className="w-full flex items-center justify-center"
-        onSubmit={handleSubmit(handleResetForm)}
-      >
+      <div className="w-full flex items-center justify-center">
         <div className="flex card w-full space-y-4 max-w-lg bg-neutral p-8 flex-col mt-8">
           <TextInput
             id="email"
             type="text"
             placeholder="Email Address"
             className="input"
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
           />
-          <button type="submit" className="btn btn-primary">
+          <button onClick={handleReset} className="btn btn-primary">
             <span
               className={classNames(isLoading ? 'loading loading-spinner' : '')}
             ></span>
             Wyślij link resetujący
           </button>
         </div>
-      </form>
+      </div>
     </div>
   );
 };

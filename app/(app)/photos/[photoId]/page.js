@@ -1,9 +1,8 @@
 'use client';
 
-import { ChevronRightIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { ChevronRightIcon } from '@heroicons/react/24/outline';
 import { onError } from 'common/utils/sentry';
 import useAuthStore from 'modules/auth/store';
-import Header from 'modules/photos/components/Header';
 import Navbar from 'modules/photos/components/Navbar';
 import { getPhoto } from 'modules/photos/lib';
 import STYLES from 'modules/photos/styles';
@@ -34,19 +33,26 @@ const Page = () => {
   return (
     <div className="flex flex-col w-full space-y-8">
       <Navbar />
-      {STYLES.map((item) => (
-        <div key={item.id}>
+      {STYLES.map((item, id) => (
+        <div key={item.id + id}>
           <div className="text-2xl font-semibold">{item.label}</div>
           <div className="carousel w-full p-5 space-x-4 rounded-box">
-            {item.filters.map((subitem) => (
+            {item.filters.map((subitem, idx) => (
               <button
                 onClick={() => router.push(pathname + '/' + subitem.id)}
                 className="carousel-item card bg-neutral overflow-hidden w-64"
-                key={subitem.id}
+                key={subitem.id + idx}
               >
+                {photo?.usedFilters?.includes(subitem.id) ? (
+                  <div className="w-full flex h-0 justify-end">
+                    <span className="absolute z-10 p-2">✅</span>
+                  </div>
+                ) : (
+                  ''
+                )}
                 <img src={subitem.image} alt="filter" />
                 <div className="p-5 flex w-full justify-between items-center">
-                  <div className="">{subitem.label}</div>
+                  <div>{subitem.label}</div>
                   <ChevronRightIcon className="h-4 w-4" />
                 </div>
               </button>
