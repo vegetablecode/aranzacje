@@ -20,8 +20,8 @@ const PremiumModal = () => {
         },
       ],
       mode: 'payment',
-      successUrl: `http://localhost:3000/payment/success`,
-      cancelUrl: `http://localhost:3000/payment/cancel`,
+      successUrl: `${process.env.NEXT_PUBLIC_DOMAIN}/payment/success`,
+      cancelUrl: `${process.env.NEXT_PUBLIC_DOMAIN}/payment/cancel`,
     });
     console.warn(error.message);
   }
