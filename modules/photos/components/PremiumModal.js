@@ -2,7 +2,7 @@ import Modal from 'common/components/layout/Modal';
 import getStripe from 'common/utils/getStripe';
 
 const features = [
-  'Generowanie we wszystkich 19 stylach',
+  'Generowanie we wszystkich 28 stylach',
   'Nielimitowane pomieszczenia',
   'Pobieranie wygenerowanych stylizacji',
   'Dostęp do nowych i limitowanych filtrów',
