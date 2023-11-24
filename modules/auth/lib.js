@@ -1,4 +1,4 @@
-import { auth } from 'common/config/firebase';
+import { auth, db } from 'common/config/firebase';
 import {
   GoogleAuthProvider,
   confirmPasswordReset,
@@ -8,6 +8,7 @@ import {
   signInWithPopup,
   signOut,
 } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
 
 export const signUp = async (email, password) => {
   return await createUserWithEmailAndPassword(auth, email, password);
@@ -34,4 +35,9 @@ export const confirmThePasswordReset = async (oobCode, newPassword) => {
 
 export const logout = async () => {
   await signOut(auth);
+};
+
+export const getUserData = async (user) => {
+  const userRef = await getDoc(doc(db, `users/${user.uid}`));
+  return userRef.data();
 };

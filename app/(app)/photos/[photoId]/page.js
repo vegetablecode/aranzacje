@@ -1,11 +1,13 @@
 'use client';
 
 import { ChevronRightIcon, SparklesIcon } from '@heroicons/react/24/outline';
+import Modal, { openModal } from 'common/components/layout/Modal';
 import classNames from 'common/utils/classNames';
 import { onError } from 'common/utils/sentry';
 import useAuthStore from 'modules/auth/store';
 import BottomPrimaryButton from 'modules/photos/components/BottomPrimaryButton';
 import Navbar from 'modules/photos/components/Navbar';
+import PremiumModal from 'modules/photos/components/PremiumModal';
 import { getPhoto } from 'modules/photos/lib';
 import STYLES from 'modules/photos/styles';
 import { useParams, usePathname, useRouter } from 'next/navigation';
@@ -71,11 +73,12 @@ const Page = () => {
           </div>
         ))}
       </div>
-      {false ? (
+      <PremiumModal />
+      {!photo.hasPro ? (
         <BottomPrimaryButton
           text="Odblokuj wszystkie style"
           icon={<SparklesIcon className="w-5 h-5" />}
-          onClick={() => router.push('/add')}
+          onClick={() => openModal()}
         />
       ) : (
         ''

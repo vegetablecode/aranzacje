@@ -61,3 +61,9 @@ export const getPrediction = async (user, photoId, styleId) => {
   const data = predictionSnap.data();
   return data?.prediction ?? null;
 };
+
+export const setPremiumUntil = async (user, date) => {
+  await setDoc(doc(db, `users/${user.uid}`), {
+    proUntil: date.toDate(),
+  });
+};

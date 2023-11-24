@@ -1,28 +1,23 @@
-const Modal = () => {
+import { XMarkIcon } from '@heroicons/react/24/outline';
+
+export const openModal = () => document.getElementById('modal').showModal();
+export const openModalWithId = (id) => document.getElementById(id).showModal();
+
+const Modal = ({ title, content, id = 'modal' }) => {
   return (
-    <>
-      {/* Open the modal using document.getElementById('ID').showModal() method */}
-      <button
-        className="btn"
-        onClick={() => document.getElementById('my_modal_1').showModal()}
-      >
-        open modal
-      </button>
-      <dialog id="my_modal_1" className="modal">
-        <div className="modal-box">
-          <h3 className="font-bold text-lg">Hello!</h3>
-          <p className="py-4">
-            Press ESC key or click the button below to close
-          </p>
-          <div className="modal-action">
-            <form method="dialog">
-              {/* if there is a button in form, it will close the modal */}
-              <button className="btn">Close</button>
-            </form>
-          </div>
+    <dialog id={id} className="modal">
+      <div className="modal-box">
+        <div className="w-full flex justify-between items-center">
+          <div className="font-bold text-lg">{title}</div>
+          <form method="dialog">
+            <button className="btn btn-circle btn-ghost">
+              <XMarkIcon className="h-5 w-5" />
+            </button>
+          </form>
         </div>
-      </dialog>
-    </>
+        <div className="py-4">{content}</div>
+      </div>
+    </dialog>
   );
 };
 

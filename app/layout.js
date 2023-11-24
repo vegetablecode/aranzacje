@@ -15,6 +15,7 @@ import 'common/styles/tailwind.scss';
 import useAuthStore from 'modules/auth/store';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from 'common/config/firebase';
+import { getUserData } from 'modules/auth/lib';
 
 const nunito = Nunito({
   subsets: ['latin'],
@@ -27,12 +28,22 @@ const nunito = Nunito({
 export default function RootLayout({ children }) {
   const pathname = usePathname();
   const noAuthPaths = [/^\/$/, /^\/signup/, /^\/login/, /^\/reset-password/];
-  const { setUser, setIsLoading } = useAuthStore();
+  const { user, setUserData, setUser, setIsLoading } = useAuthStore();
 
   useEffect(() => {
     themeChange(false);
     setupLogging();
   }, []);
+
+  useEffect(() => {
+    const onLoad = async () => {
+      if (user?.uid) {
+        setUserData(await getUserData(user));
+      }
+    };
+
+    onLoad();
+  }, [user]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {

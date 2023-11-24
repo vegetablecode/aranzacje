@@ -66,7 +66,7 @@ const Page = () => {
 
   return (
     <>
-      <Navbar title="Twoje pomieszczenia 📷" showGoBack={false} />
+      <Navbar title="Pomieszczenia 📷" showGoBack={false} showUserMenu={true} />
       {data?.length ? renderPhotos() : renderEmpty()}
       <BottomPrimaryButton
         text="Dodaj nowe pomieszczenie"

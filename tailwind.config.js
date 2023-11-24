@@ -25,7 +25,7 @@ const config = {
     themes: [
       {
         light: {
-          primary: '#641ae6',
+          primary: '#c2410c',
           secondary: '#d926a9',
           accent: '#1fb2a6',
           neutral: '#ffffff',
@@ -38,7 +38,7 @@ const config = {
       },
       {
         dark: {
-          primary: '#641ae6',
+          primary: '#c2410c',
           secondary: '#d926a9',
           accent: '#1fb2a6',
           neutral: '#2a303c',
