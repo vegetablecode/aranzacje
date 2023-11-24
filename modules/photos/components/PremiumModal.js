@@ -12,7 +12,7 @@ const features = [
 const PremiumModal = () => {
   async function handleCheckout() {
     const stripe = await getStripe();
-    const { error } = await stripe.redirectToCheckout({
+    await stripe.redirectToCheckout({
       lineItems: [
         {
           price: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID,
@@ -23,7 +23,6 @@ const PremiumModal = () => {
       successUrl: `${process.env.NEXT_PUBLIC_DOMAIN}/payment/success`,
       cancelUrl: `${process.env.NEXT_PUBLIC_DOMAIN}/payment/cancel`,
     });
-    console.warn(error.message);
   }
 
   const renderContent = () => (
