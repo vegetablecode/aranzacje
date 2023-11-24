@@ -35,7 +35,7 @@ const Page = () => {
     onLoad();
   }, []);
 
-  const isUserPro = isPro(userData.proUntil);
+  const isUserPro = isPro(userData?.proUntil);
 
   return (
     <>
