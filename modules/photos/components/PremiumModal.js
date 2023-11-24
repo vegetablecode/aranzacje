@@ -20,8 +20,8 @@ const PremiumModal = () => {
         },
       ],
       mode: 'payment',
-      successUrl: `http://localhost:3000/success`,
-      cancelUrl: `http://localhost:3000/cancel`,
+      successUrl: `http://localhost:3000/payment/success`,
+      cancelUrl: `http://localhost:3000/payment/cancel`,
     });
     console.warn(error.message);
   }

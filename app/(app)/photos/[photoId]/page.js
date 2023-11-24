@@ -3,6 +3,7 @@
 import { ChevronRightIcon, SparklesIcon } from '@heroicons/react/24/outline';
 import Modal, { openModal } from 'common/components/layout/Modal';
 import classNames from 'common/utils/classNames';
+import isPro from 'common/utils/isPro';
 import { onError } from 'common/utils/sentry';
 import useAuthStore from 'modules/auth/store';
 import BottomPrimaryButton from 'modules/photos/components/BottomPrimaryButton';
@@ -17,7 +18,7 @@ const Page = () => {
   const router = useRouter();
   const pathname = usePathname();
   const { photoId } = useParams();
-  const { user } = useAuthStore();
+  const { user, userData } = useAuthStore();
   const [photo, setPhoto] = useState('');
 
   useEffect(() => {
@@ -34,6 +35,8 @@ const Page = () => {
     onLoad();
   }, []);
 
+  const isUserPro = isPro(userData.proUntil);
+
   return (
     <>
       <div className="flex flex-col w-full space-y-8">
@@ -42,7 +45,11 @@ const Page = () => {
           <div key={item.id + id}>
             <div className="flex justify-between items-center">
               <div className="text-2xl font-semibold">{item.label}</div>
-              {item.free ? '' : <div className="badge badge-primary">PRO</div>}
+              {!isUserPro && !item.free ? (
+                <div className="badge badge-primary">PRO</div>
+              ) : (
+                ''
+              )}
             </div>
             <div
               className={classNames(
@@ -51,7 +58,11 @@ const Page = () => {
             >
               {item.filters.map((subitem, idx) => (
                 <button
-                  onClick={() => router.push(pathname + '/' + subitem.id)}
+                  onClick={() =>
+                    isUserPro || item.free
+                      ? router.push(pathname + '/' + subitem.id)
+                      : openModal()
+                  }
                   className="carousel-item card bg-neutral overflow-hidden w-64 md:w-full"
                   key={subitem.id + idx}
                 >
@@ -74,7 +85,7 @@ const Page = () => {
         ))}
       </div>
       <PremiumModal />
-      {!photo.hasPro ? (
+      {!isUserPro ? (
         <BottomPrimaryButton
           text="Odblokuj wszystkie style"
           icon={<SparklesIcon className="w-5 h-5" />}
