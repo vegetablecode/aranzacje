@@ -1,7 +1,6 @@
 const { timestampToDate } = require('./dateConverters');
 
 const isPro = (proUntil) => {
-  console.log(proUntil);
   if (proUntil?.seconds) {
     const date = timestampToDate(proUntil);
     const today = new Date();

@@ -69,19 +69,12 @@ const Page = () => {
       }
 
       setData(prediction);
+      if (prediction?.output) {
+        await addNewPrediction(user, photoId, style, prediction);
+        setIsGenerating(false);
+      }
     }
   };
-
-  useEffect(() => {
-    const onOutput = async () => {
-      await addNewPrediction(user, photoId, style, data);
-    };
-
-    if (data?.output) {
-      setIsGenerating(false);
-      onOutput();
-    }
-  }, [data]);
 
   useEffect(() => {
     const onLoad = async () => {
