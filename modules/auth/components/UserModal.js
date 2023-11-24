@@ -16,7 +16,7 @@ const UserModal = () => {
 
   const renderContent = () => (
     <div>
-      {isPro(userData.proUntil) ? (
+      {isPro(userData?.proUntil) ? (
         <div>
           Masz dostęp do funkcji premium do:
           <span className="ml-2 text-primary">
