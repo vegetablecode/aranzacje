@@ -31,7 +31,7 @@ const Page = () => {
           <div className="display">
             <div className="artboard text-center artboard-demo phone-1 flex flex-col space-y-4 px-8">
               <Header />
-              <img src="/qr.png" className="w-1/2 h-auto" alt="qr-code" />
+              <img src="/qr.png" className="w-full h-auto" alt="qr-code" />
               <div>Zeskanuj kod telefonem, aby rozpocząć 📲</div>
             </div>
           </div>
