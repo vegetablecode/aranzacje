@@ -2,7 +2,7 @@ import Modal from 'common/components/layout/Modal';
 import getStripe from 'common/utils/getStripe';
 
 const features = [
-  'Generowanie we wszystkich 28 stylach',
+  'Kreowanie we wszystkich 28 stylach',
   'Nielimitowane pomieszczenia',
   'Pobieranie wygenerowanych stylizacji',
   'Dostęp do nowych i limitowanych filtrów',
@@ -38,7 +38,7 @@ const PremiumModal = () => {
         ))}
       </div>
       <button onClick={handleCheckout} className="btn btn-primary">
-        💳 Odblokuj wszystko - 29 zł
+        💳 Odblokuj wszystko - 39 zł
       </button>
     </div>
   );
