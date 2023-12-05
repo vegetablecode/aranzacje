@@ -12,7 +12,7 @@ const features = [
 const PremiumModal = () => {
   async function handleCheckout() {
     const stripe = await getStripe();
-    await stripe.checkout.sessions.create({
+    await stripe.redirectToCheckout({
       lineItems: [
         {
           price: process.env.NEXT_PUBLIC_STRIPE_PRICE_ID,
