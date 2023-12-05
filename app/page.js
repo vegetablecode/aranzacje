@@ -22,7 +22,7 @@ const Page = () => {
       </div>
       <div
         className={classNames(
-          'w-full min-h-screen px-5 pt-8 pb-20 flex flex-col space-y-6 items-center justify-start',
+          'w-full min-h-screen hidden lg:flex px-5 pt-8 pb-20 flex-col space-y-6 items-center justify-start',
           useOnDekstop ? 'lg:hidden' : ''
         )}
       >
@@ -36,8 +36,10 @@ const Page = () => {
             </div>
           </div>
         </div>
-        <div className="divider">LUB</div>
-        <button onClick={() => setUseOnDekstop(true)} class="btn btn-primary">
+        <button
+          onClick={() => setUseOnDekstop(true)}
+          class="btn btn-primary btn-empty"
+        >
           💻 Uzywaj na komputerze
         </button>
       </div>
