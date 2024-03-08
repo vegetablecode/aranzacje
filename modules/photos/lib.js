@@ -5,15 +5,12 @@ import {
   query,
   getDocs,
   getDoc,
-  setDoc,
   updateDoc,
-  arrayUnion,
+  deleteDoc,
+  setDoc,
 } from 'firebase/firestore';
-import { v4 as uuid } from 'uuid';
-import imageCompression from 'browser-image-compression';
-import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { db } from 'common/config/firebase';
-import { storage } from 'common/config/firebase';
+import { FILTERS, MODELS } from './consts';
 
 export const addNewPhoto = async (user, url) => {
   const photo = {
@@ -47,52 +44,37 @@ export const getPhoto = async (user, photoId) => {
   return photoSnap.data();
 };
 
-export const addNewPrediction = async (user, photoId, style, prediction) => {
-  if (prediction?.output) {
-    const archivedUrls = [];
-    for (let url of prediction.output.slice(1)) {
-      const archivedFile = await archiveFile(url);
-      archivedUrls.push(archivedFile);
-    }
-    prediction.output = archivedUrls;
-  }
-
-  await setDoc(
-    doc(db, `users/${user.uid}/photos/${photoId}/predictions/${style.id}`),
-    { prediction: prediction }
-  );
+export const unlockPhoto = async (user, photoId) => {
   await updateDoc(doc(db, `users/${user.uid}/photos/${photoId}`), {
-    usedFilters: arrayUnion(style.id),
+    unlocked: true,
   });
 };
 
-export const getPrediction = async (user, photoId, styleId) => {
-  const predictionSnap = await getDoc(
-    doc(db, `users/${user.uid}/photos/${photoId}/predictions/${styleId}`)
-  );
-  const data = predictionSnap.data();
-  return data?.prediction ?? null;
+export const removePhoto = async (user, photoId) => {
+  await deleteDoc(doc(db, `users/${user.uid}/photos/${photoId}`));
 };
 
-export const setPremiumUntil = async (user, date) => {
-  await setDoc(doc(db, `users/${user.uid}`), {
-    proUntil: date.toDate(),
+export const getPrediction = async (imageUrl, style, mode, prompt, version) =>
+  fetch('/api/interior', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      image: imageUrl,
+      version: version,
+      prompt:
+        style === 'builder'
+          ? prompt
+          : mode.concat(', ').concat(
+              FILTERS.map((item) => item.filters)
+                .flat()
+                .find((item) => item.id === style).prompt
+            ),
+    }),
   });
-};
 
-const archiveFile = async (url) => {
-  const options = {
-    maxSizeMB: 0.5,
-    maxWidthOrHeight: 1500,
-    useWebWorker: true,
-  };
-
-  const res = await fetch(url);
-  const file = await res.blob();
-  const compressedFile = await imageCompression(file, options);
-
-  const storageRef = ref(storage, `/renders/${uuid() + '_' + 'render.png'}`);
-  await uploadBytesResumable(storageRef, compressedFile);
-  const downloadUrl = await getDownloadURL(storageRef);
-  return downloadUrl;
-};
+export const checkPrediction = async (prediction) =>
+  fetch('/api/interior?id=' + prediction.id, {
+    method: 'GET',
+  });

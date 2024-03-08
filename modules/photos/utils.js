@@ -1,4 +1,4 @@
-import STYLES from './styles';
+import { FILTERS } from './consts';
 
 export const getLastPercentage = (text) => {
   const regex = /(\d+)%[^%]*$/;
@@ -12,6 +12,10 @@ export const getLastPercentage = (text) => {
 };
 
 export const getStyle = (styleId) =>
-  STYLES.map((style) => style.filters)
+  FILTERS.map((style) => style.filters)
     .flat()
     .filter((style) => style.id === styleId)[0];
+
+export const getAllStyles = () => {
+  return FILTERS.map((item) => item.filters).flat();
+};

@@ -15,10 +15,8 @@ const Page = () => {
         />
         <div className="flex justify-center flex-col space-y-2">
           <div className="text-3xl">❌</div>
-          <div className="font-bold text-xl">Płatność odrzucona!</div>
-          <div>
-            Płatność została anulowana. Pieniądze z konta nie zostały pobrane.
-          </div>
+          <div className="font-bold text-xl">Payment failed!</div>
+          <div>The payment has been canceled.</div>
         </div>
       </div>
       <BottomPrimaryButton

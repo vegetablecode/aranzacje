@@ -1,4 +1,4 @@
-# Aranzacje AI 🤖
+# Decoratly 🤖
 
 ## How to deploy
 

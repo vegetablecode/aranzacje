@@ -39,14 +39,14 @@ const Page = () => {
   return (
     <div className="flex pt-10 px-4 flex-col items-center justify-center">
       <div className="text-3xl font-semibold text-center">
-        Przypomnienie hasła
+        Nie pamiętam swojego hasła
       </div>
       <div className="w-full flex items-center justify-center">
         <div className="flex card w-full space-y-4 max-w-lg bg-neutral p-8 flex-col mt-8">
           <TextInput
             id="email"
             type="text"
-            placeholder="Email Address"
+            placeholder="Twój e-mail"
             className="input"
             onChange={(e) => setEmail(e.target.value)}
             value={email}

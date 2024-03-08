@@ -7,8 +7,10 @@ import classNames from 'common/utils/classNames';
 import useAuthStore from 'modules/auth/store';
 import { login, loginWithGoogle, signUp } from 'modules/auth/lib';
 import TextInput from 'common/components/inputs/TextInput';
+import Link from 'next/link';
+import Metadata from 'common/components/layout/Metadata';
 
-const Auth = ({ isSignUpMode }) => {
+const Auth = ({ isSignUpMode, simpleMode = false }) => {
   const router = useRouter();
   const { user } = useAuthStore();
   const [isLoading, setIsLoading] = useState(false);
@@ -16,10 +18,10 @@ const Auth = ({ isSignUpMode }) => {
   const [password, setPassword] = useState('');
 
   useEffect(() => {
-    if (user) {
+    if (user && !simpleMode) {
       router.push('/photos');
     }
-  }, user);
+  }, [user]);
 
   const handleAuth = async () => {
     setIsLoading(true);
@@ -29,7 +31,9 @@ const Auth = ({ isSignUpMode }) => {
       } else {
         await login(email, password);
       }
-      router.push('/photos');
+      if (!simpleMode) {
+        router.push('/photos');
+      }
     } catch (err) {
       makeErrorToast(mapAuthErrorToMessage(err));
       setIsLoading(false);
@@ -40,7 +44,9 @@ const Auth = ({ isSignUpMode }) => {
     setIsLoading(true);
     try {
       await loginWithGoogle();
-      router.push('/photos');
+      if (!simpleMode) {
+        router.push('/photos');
+      }
     } catch (err) {
       makeErrorToast(mapAuthErrorToMessage(err));
       setIsLoading(false);
@@ -48,19 +54,37 @@ const Auth = ({ isSignUpMode }) => {
   };
 
   return (
-    <div className="flex pt-10 px-4 flex-col items-center justify-center">
-      <div className="text-center">
-        <div className="text-3xl font-semibold-text-center">
-          {isSignUpMode ? 'Zarejestruj się 🔥' : 'Zaloguj się ⬇️'}
+    <div
+      className={classNames(
+        !simpleMode
+          ? 'flex pt-10 px-4 flex-col items-center justify-center'
+          : ''
+      )}
+    >
+      {!simpleMode ? (
+        <div className="text-center">
+          <div className="text-3xl font-semibold-text-center">
+            {isSignUpMode ? 'Sign Up 🔥' : 'Log In ⬇️'}
+          </div>
+          <div className="mt-2 pb-4">
+            {isSignUpMode
+              ? '...by zapisać postęp'
+              : 'by przeglądać aranżacje ✨'}
+          </div>
+          <Link href="/">
+            <img
+              alt="decoratly logo"
+              src="/logo.png"
+              className="h-16 cursor-pointer w-auto"
+            />
+          </Link>
         </div>
-        <div className="mt-2">
-          {isSignUpMode
-            ? '...by nie utracić postępu'
-            : 'by przeglądać swoje kreacje ✨'}
-        </div>
-      </div>
+      ) : (
+        ''
+      )}
       <div className="w-full flex items-center justify-center">
-        <div className="flex card w-full space-y-12 max-w-lg bg-neutral p-8 flex-col mt-8">
+        <Metadata />
+        <div className="flex card w-full space-y-8 max-w-lg bg-white shadow p-8 flex-col mt-8">
           <div className="flex flex-col space-y-4">
             <div className="flex flex-col space-y-2 items-center">
               <ProviderLoginButton
@@ -69,12 +93,12 @@ const Auth = ({ isSignUpMode }) => {
               />
             </div>
           </div>
-          <div className="divider">LUB</div>
+          <div className="divider">OR</div>
           <div className="flex flex-col space-y-4">
             <TextInput
               id="email"
               type="text"
-              placeholder="Adres e-mail"
+              placeholder="E-mail"
               className="input"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
@@ -95,27 +119,33 @@ const Auth = ({ isSignUpMode }) => {
                   isLoading ? 'loading loading-spinner' : ''
                 )}
               ></span>
-              {isSignUpMode ? 'Zarejestruj się' : 'Zaloguj'}
+              {isSignUpMode ? 'Sign Up' : 'Log In'}
             </button>
           </div>
         </div>
       </div>
-      <div className="mt-4">
-        {isSignUpMode ? 'Masz już konto?' : 'Nie masz konta?'}
-        <button
-          onClick={() => router.push(isSignUpMode ? '/login' : '/signup')}
-          className="btn btn-link inline"
-        >
-          {isSignUpMode ? 'Zaloguj się' : 'Zarejestruj się'}
-        </button>
-      </div>
-      {!isSignUpMode ? (
-        <button
-          onClick={() => router.push('/reset-password')}
-          className="btn btn-link"
-        >
-          Zapomniałem hasła
-        </button>
+      {!simpleMode ? (
+        <>
+          <div className="mt-4">
+            {isSignUpMode ? 'Mam już konto' : 'Nie posiadam konta'}
+            <button
+              onClick={() => router.push(isSignUpMode ? '/login' : '/signup')}
+              className="btn btn-link inline"
+            >
+              {isSignUpMode ? 'Logowanie' : 'Rejestracja'}
+            </button>
+          </div>
+          {!isSignUpMode ? (
+            <button
+              onClick={() => router.push('/reset-password')}
+              className="btn btn-link"
+            >
+              Nie pamiętam hasła
+            </button>
+          ) : (
+            ''
+          )}
+        </>
       ) : (
         ''
       )}

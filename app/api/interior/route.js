@@ -1,5 +1,3 @@
-import Replicate from 'replicate';
-
 export async function POST(req) {
   const data = await req.json();
 
@@ -10,13 +8,13 @@ export async function POST(req) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      version:
-        '8a89b0ab59a050244a751b6475d91041a8582ba33692ae6fab65e0c51b700328',
+      version: data.version,
       input: {
         image: data.image,
         prompt: data.prompt,
         scheduler: 'K_EULER_ANCESTRAL',
-        num_samples: 4,
+        num_samples: 2,
+        width: 1024,
         guidance_scale: 7.5,
         negative_prompt:
           'anime, cartoon, graphic, text, painting, crayon, graphite, abstract, glitch, deformed, mutated, ugly, disfigured',

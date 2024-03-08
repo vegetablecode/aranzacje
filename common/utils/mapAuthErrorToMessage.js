@@ -236,7 +236,7 @@ const errors = {
     'There is no user record corresponding to this identifier. The user may have been deleted.',
   'auth/user-disabled':
     'The user account has been disabled by an administrator.',
-  'auth/missing-email': 'Użytkownik o tym adresie e-mail nie istnieje.',
+  'auth/missing-email': "There's no user with this e-mail.",
   'auth/user-mismatch':
     'The supplied credentials do not correspond to the previously signed in user.',
   'auth/weak-password': 'The password must be 6 characters long or more.',

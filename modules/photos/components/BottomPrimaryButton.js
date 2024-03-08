@@ -1,7 +1,21 @@
 import classNames from 'common/utils/classNames';
 
-const BottomPrimaryButton = ({ text, icon, onClick, isLoading, disabled }) => (
-  <div className="fixed bottom-0 z-50 p-5 w-full max-w-xl">
+const BottomPrimaryButton = ({
+  text,
+  icon,
+  onClick,
+  isLoading,
+  disabled,
+  modal = false,
+  block,
+}) => (
+  <div
+    className={classNames(
+      'w-full max-w-xl',
+      modal ? 'bottom-[29px]' : 'bottom-0',
+      block ? '' : 'fixed p-5 mx-auto left-0 right-0 z-40 '
+    )}
+  >
     <button
       onClick={onClick}
       className={classNames(

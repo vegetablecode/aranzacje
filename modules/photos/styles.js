@@ -2,11 +2,11 @@ const STYLES = [
   {
     id: 'free',
     free: true,
-    label: 'Style DARMOWE 🤑',
+    label: 'FREE Designs 🤑',
     filters: [
       {
         id: 'default',
-        label: 'Neutralny 😌',
+        label: 'Neutral 😌',
         prompt: 'default design',
         image: '/images/default.jpeg',
       },
@@ -20,36 +20,36 @@ const STYLES = [
   },
   {
     id: 'classic',
-    label: 'Style Klasyczne 💁‍♂️',
+    label: 'Classics 💁‍♂️',
     filters: [
       {
         id: 'oasis',
-        label: 'Oaza zieleni 🪴',
+        label: 'Green Oasis 🪴',
         prompt:
           'Green Oasis, Design an interior with plenty of potted plants. Select diverse species and different-sized pots to create a jungle-like effect indoors. Use stands, hanging shelves, or create green walls to maximize space.',
         image: '/images/oasis.jpeg',
       },
       {
         id: 'modern',
-        label: 'Modernistyczny ✌️',
+        label: 'Modern ✌️',
         prompt: 'modern design',
         image: '/images/modern.jpeg',
       },
       {
         id: 'cozy',
-        label: 'Przytulny 🧸',
+        label: 'Cosy 🧸',
         prompt: 'cozy design',
         image: '/images/cozy.jpeg',
       },
       {
         id: 'cozydark',
-        label: 'Przytulny ciemny ✨',
+        label: 'Cosy dark ✨',
         prompt: 'cozy design',
         image: '/images/cozydark.jpeg',
       },
       {
         id: 'industrial',
-        label: 'Industrialny 🏗️',
+        label: 'Industrial 🏗️',
         prompt: 'industrial design',
         image: '/images/industrial.jpeg',
       },
@@ -63,36 +63,36 @@ const STYLES = [
   },
   {
     id: 'trends',
-    label: 'Trendy 2023 🔥',
+    label: '2023 Trends 🔥',
     filters: [
       {
         id: 'midcentury',
-        label: 'Mid-century modern 🗿',
+        label: 'Mid-century 🗿',
         prompt: 'midcentury modern',
         image: '/images/midcentury.jpeg',
       },
       {
         id: 'stone',
-        label: 'Kamienny 🗿',
+        label: 'Stone 🗿',
         prompt: 'organic stone design',
         image: '/images/stone.jpeg',
       },
       {
         id: 'marble',
-        label: 'Marmurowy 🪨',
+        label: 'Marble 🪨',
         prompt:
           'raw natural materials, dramatic, colorful marble, wooden ceiling, dark walls',
         image: '/images/marble.jpeg',
       },
       {
         id: 'maximalist',
-        label: 'Maksymalista ♾️',
+        label: 'Maximalist ♾️',
         prompt: 'modern maximalism',
         image: '/images/maximalist.jpeg',
       },
       {
         id: 'transparent',
-        label: 'Przezroczysto-Szklany 🧊',
+        label: 'Glass 🧊',
         prompt: 'transparent, glassy design',
         image: '/images/transparent.jpeg',
       },
@@ -100,30 +100,30 @@ const STYLES = [
   },
   {
     id: 'scandinavian',
-    label: 'Style skandynawskie 🇳🇴',
+    label: 'Scandinavian 🇳🇴',
     filters: [
       {
         id: 'boho',
-        label: 'Skandynawski Boho 🌿',
+        label: 'Scandinavian Boho 🌿',
         prompt:
           'Scandinavian Interior with Boho Accents: Combine the simplicity of Scandinavian style with colorful and ethnic Boho accents. Use light wall colors and furniture, then add rich patterns, soft rugs, and handmade accessories.',
         image: '/images/boho.jpeg',
       },
       {
         id: 'ikea',
-        label: 'Szwedzki 🇸🇪',
+        label: 'Swedish 🇸🇪',
         prompt: 'ikea design',
         image: '/images/ikea.jpeg',
       },
       {
         id: 'scandinavian',
-        label: 'Skandynawski 👌',
+        label: 'Scandinavian 👌',
         prompt: 'scandinavian',
         image: '/images/scandinavian.jpeg',
       },
       {
         id: 'nordicdark',
-        label: 'Skandynawski ciemny ♠️',
+        label: 'Scandinavian dark ♠️',
         prompt: 'scandinavian dark design',
         image: '/images/nordicdark.jpeg',
       },
@@ -131,23 +131,23 @@ const STYLES = [
   },
   {
     id: 'nature',
-    label: 'W Zgodzie z Naturą 🌿',
+    label: 'Eco 🌿',
     filters: [
       {
         id: 'tropical',
-        label: 'Tropikalny 🌴',
+        label: 'Tropical 🌴',
         prompt: 'tropical design',
         image: '/images/tropical.jpeg',
       },
       {
         id: 'plants',
-        label: 'Roślinny 🌱',
+        label: 'Plant 🌱',
         prompt: 'plants design',
         image: '/images/plants.jpeg',
       },
       {
         id: 'army',
-        label: 'Zielony 🌲',
+        label: 'Green 🌲',
         prompt: 'army design',
         image: '/images/army.jpeg',
       },
@@ -165,13 +165,13 @@ const STYLES = [
     filters: [
       {
         id: 'wooden',
-        label: 'Drewniany 🌳',
+        label: 'Wooden 🌳',
         prompt: 'wood design',
         image: '/images/wooden.jpeg',
       },
       {
         id: 'darkwood',
-        label: 'Ciemny drewniany 🤎',
+        label: 'Wooden dark 🤎',
         prompt: 'wood design, dark walls',
         image: '/images/darkwood.jpeg',
       },
@@ -183,31 +183,31 @@ const STYLES = [
     filters: [
       {
         id: 'japanese',
-        label: 'Japoński 🇯🇵',
+        label: 'Japanese 🇯🇵',
         prompt: 'japanese design',
         image: '/images/japanese.jpeg',
       },
       {
         id: 'millionare',
-        label: 'Milionera 🤑',
+        label: 'Millionare 🤑',
         prompt: 'millionare',
         image: '/images/millionare.jpeg',
       },
       {
         id: 'gaming',
-        label: 'Gamingowy 🎮',
+        label: 'Gaming 🎮',
         prompt: 'gaming',
         image: '/images/gaming.jpeg',
       },
       {
         id: 'future',
-        label: 'Futurystyczny 🚀',
+        label: 'Future 🚀',
         prompt: 'future design',
         image: '/images/future.jpeg',
       },
       {
         id: 'artistic',
-        label: 'Dusza Artysty 🧑‍🎨',
+        label: 'Artistic Space 🧑‍🎨',
         prompt:
           'Artistic Space, Create an interior inspired by art, where walls serve as a gallery for your favorite pieces. Use muted colors on the walls to emphasize the artworks. You can also add a focal point spotlighting a selected painting',
         image: '/images/artistic.jpeg',

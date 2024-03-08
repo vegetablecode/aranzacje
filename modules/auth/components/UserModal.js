@@ -18,14 +18,14 @@ const UserModal = () => {
     <div>
       {isPro(userData?.proUntil) ? (
         <div>
-          Masz dostęp do funkcji premium do:
+          You can access premium features until:
           <span className="ml-2 text-primary">
-            {moment(timestampToDate(userData.proUntil)).format('DD.MM.YYYY')}
+            {moment(timestampToDate(userData?.proUntil)).format('DD.MM.YYYY')}
           </span>
           ✨
         </div>
       ) : (
-        <div>Konto premium nie jest aktywne 😕</div>
+        <div>Premium account is not active 😕</div>
       )}
       <div className="mt-8 flex justify-center w-full">
         <button onClick={() => handleLogout()} className="btn">
@@ -35,7 +35,7 @@ const UserModal = () => {
     </div>
   );
 
-  return <Modal title="Cześć! 👋" id="user-menu" content={renderContent()} />;
+  return <Modal title="Hello! 👋" id="user-menu" content={renderContent()} />;
 };
 
 export default UserModal;

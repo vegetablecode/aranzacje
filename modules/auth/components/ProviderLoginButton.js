@@ -31,7 +31,7 @@ const ProviderLoginButton = ({ handler, isLoading }) => {
               d="M95.25 37.927c14.028 0 26.497 4.849 36.455 14.201l27.276-27.276C142.442 9.439 120.968 0 95.25 0 58.016 0 25.891 21.388 10.218 52.561L41.91 77.153c7.533-22.514 28.575-39.226 53.34-39.226z"
             />
           </svg>
-          <div>Zaloguj się z Google</div>
+          <div>Logowanie z Google</div>
         </>
       )}
     </button>
