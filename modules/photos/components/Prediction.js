@@ -13,10 +13,10 @@ const Prediction = ({
       <div className="loading loading-infinity loading-lg"></div>
       <div className="flex space-x-2 items-center">
         <div className="flex flex-col font-bold text-lg items-center">
-          <div>Waking up our designer! 😴🤖</div>
+          <div>Budzimy naszego projektanta AI! 😴🤖</div>
           <div className="text-sm opacity-80 font-normal text-center mt-1">
-            It can take up to {model === 'arrange' ? 5 : 2} minutes to render,{' '}
-            <br /> so you can leave your phone or visit our cassino <br /> ⬇️
+            Renderowanie moe zająć nawet {model === 'arrange' ? 5 : 2} minut,{' '}
+            <br /> więc możesz zostawić telefon lub odwiedzić casino <br /> ⬇️
           </div>
         </div>
       </div>
@@ -33,14 +33,14 @@ const Prediction = ({
         {progress}%
       </div>
       <div className="flex space-x-2 items-center">
-        <div>Creating designs ✨</div>
+        <div>Generowanie wnętrz ✨</div>
       </div>
     </>
   );
 
   return data?.output ? (
     <div className="flex flex-col space-y-2">
-      <div className="text-2xl pb-2 font-black">💡 Generated ideas</div>
+      <div className="text-2xl pb-2 font-black">💡 Wizualizacje</div>
       {model === 'arrange' ? (
         <a href={data.output} target="_blank">
           <img className="w-full h-auto card" src={data.output} alt="design" />
@@ -68,7 +68,7 @@ const Prediction = ({
             {data?.status === 'processing' ? renderProcessing() : ''}
           </div>
           <div className="divider uppercase divider-primary font-bold">
-            🎰 Play a mini game 🎰
+            🎰 Zagraj w mini grę 🎰
           </div>
           <SlotMachine />
         </div>
