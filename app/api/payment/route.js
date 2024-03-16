@@ -2,7 +2,6 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 export async function POST(req) {
   const data = await req.json();
-  console.log('data: ', data.plan);
   let priceId = '';
 
   switch (data.plan) {
